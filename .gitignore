@@ -1,0 +1,14 @@
+.DS_Store
+.claude.json
+**/.claude/settings*.json
+**/.claude/history.jsonl
+**/.claude/todos/
+**/.claude/shell-snapshots/
+**/.claude/file-history/
+**/.claude/debug/
+**/.claude/statsig/
+**/.claude/session-env/
+**/.claude/projects/
+**/.claude/ide/
+**/.claude/plugins/
+**/.claude/config/

@@ -1,0 +1,20 @@
+experimental_use_rmcp_client = true
+model = "gpt-5-codex"
+model_reasoning_effort = "medium"
+
+[projects."/Users/olekristianbe/dotfiles"]
+trust_level = "trusted"
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+env = {}
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+type = "http"
+
+[mcp_servers.shopify-dev]
+command = "npx"
+args = ["-y", "@shopify/dev-mcp@latest"]
+env = {}
