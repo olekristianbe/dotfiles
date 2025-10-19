@@ -1,0 +1,138 @@
+tap "homebrew/bundle"
+tap "koekeishiya/formulae"
+tap "nikitabobko/tap"
+tap "olekristianbe/boomsnap"
+tap "pipedreamhq/pd-cli"
+# Core application library for C
+brew "glib"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
+# Modern, maintained replacement for ls
+brew "eza"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.13"
+# Library for manipulating fonts
+brew "fonttools", link: false
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
+# Distributed revision control system
+brew "git"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
+# Git extension for versioning large files
+brew "git-lfs"
+# Toolkit for creating graphical user interfaces
+brew "gtk+3"
+# C/C++ and Java libraries for Unicode and globalization
+brew "icu4c@76"
+# New file format for still image compression
+brew "jpeg-xl"
+# Mac App Store command-line interface
+brew "mas"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Platform built on V8 to build network applications
+brew "node"
+# Execute binaries from Python packages in isolated environments
+brew "pipx"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# Fast, disk space efficient package manager
+brew "pnpm"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# AV1 encoder
+brew "svt-av1"
+# Terminal multiplexer
+brew "tmux"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Utilities to create and convert Web Open Font File (WOFF) files
+brew "woff2"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+# Fish-like fast/unobtrusive autosuggestions for zsh
+brew "zsh-autosuggestions"
+# Fish shell like syntax highlighting for zsh
+brew "zsh-syntax-highlighting"
+# CLI utility for Pipedream
+brew "pipedreamhq/pd-cli/pipedream"
+# AeroSpace is an i3-like tiling window manager for macOS
+cask "aerospace"
+# Time blocking and productivity platform
+cask "akiflow"
+# 3D model slicing software for 3D printers, maintained by Bambu Lab
+cask "bambu-studio"
+# E-books management software
+cask "calibre"
+# OpenAI's official ChatGPT desktop app
+cask "chatgpt"
+# Write, edit, and chat about your code with AI
+cask "cursor"
+# Collaborative team software
+cask "figma"
+# Folder comparison and synchronization software
+cask "freefilesync"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Managing your campaigns
+cask "google-ads-editor"
+# Client for the Google Drive storage service
+cask "google-drive"
+# Keyboard shortcuts for every button on your screen
+cask "homerow"
+# Keyboard customiser
+cask "karabiner-elements"
+# App to manage software development and track bugs
+cask "linear-linear"
+# Controls and monitors all fans on Apple computers
+cask "macs-fan-control"
+# Speech recognition tool
+cask "macwhisper"
+# Smooths scrolling and set mouse scroll directions independently
+cask "mos"
+# Get up and running with large language models locally
+cask "ollama-app"
+# Document editor
+cask "onlyoffice"
+# Control your tools with a few keystrokes
+cask "raycast"
+# SEO site audit tool
+cask "screaming-frog-seo-spider"
+# Collection of apps available by subscription
+cask "setapp"
+# Team communication and collaboration software
+cask "slack"
+# Native desktop client for WhatsApp
+cask "whatsapp"
+# Gecko based web browser
+cask "zen"
+mas "1Password for Safari", id: 1569813296
+mas "Developer", id: 640199958
+mas "Keynote", id: 409183694
+mas "Xcode", id: 497799835
+vscode "anthropic.claude-code"
+vscode "bradlc.vscode-tailwindcss"
+vscode "bungcip.better-toml"
+vscode "christian-kohler.npm-intellisense"
+vscode "davidanson.vscode-markdownlint"
+vscode "eamodio.gitlens"
+vscode "esbenp.prettier-vscode"
+vscode "expo.vscode-expo-tools"
+vscode "formulahendry.auto-rename-tag"
+vscode "github.vscode-github-actions"
+vscode "redhat.vscode-xml"
+vscode "redhat.vscode-yaml"
+vscode "shopify.theme-check-vscode"
+vscode "sumneko.lua"
+vscode "vscodevim.vim"
+vscode "wix.vscode-import-cost"
+vscode "yoavbls.pretty-ts-errors"

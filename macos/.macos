@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+
+# macOS System Preferences
+# Apply these settings by running: bash ~/.macos or source ~/dotfiles/macos/.macos
+
+set -euo pipefail
+
+echo "Applying macOS system preferences..."
+
+###############################################################################
+# Trackpad & Mouse                                                            #
+###############################################################################
+
+# Set trackpad speed to fastest
+defaults write -g com.apple.trackpad.scaling -float 3.0
+
+# Set mouse speed to fastest
+defaults write -g com.apple.mouse.scaling -float 3.0
+
+###############################################################################
+# Keyboard                                                                    #
+###############################################################################
+
+# Set keyboard repeat rate to fastest
+defaults write -g KeyRepeat -int 2
+
+# Set delay until repeat to shortest
+defaults write -g InitialKeyRepeat -int 15
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Disable auto-capitalization
+defaults write -g NSAutomaticCapitalizationEnabled -bool false
+
+###############################################################################
+# Dock                                                                        #
+###############################################################################
+
+# Set dock size to small
+defaults write com.apple.dock tilesize -int 30
+
+# Enable dock magnification
+defaults write com.apple.dock magnification -bool true
+
+# Enable dock autohide
+defaults write com.apple.dock autohide -bool true
+
+# Use scale effect for minimizing windows
+defaults write com.apple.dock mineffect -string "scale"
+
+# Minimize windows into application icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Don't show recent applications in Dock
+defaults write com.apple.dock show-recents -bool false
+
+# Don't automatically rearrange Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# Group windows by application in Mission Control
+defaults write com.apple.dock expose-group-apps -bool true
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+# Show hidden files
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Show all filename extensions
+defaults write -g AppleShowAllExtensions -bool true
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Use list view in all Finder windows by default
+# Four-letter codes: `icnv`, `clmv`, `glyv`, `Nlsv`
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+# Disable warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# When performing a search, search the current folder by default
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+###############################################################################
+# Screenshots                                                                 #
+###############################################################################
+
+# Save screenshots to ~/Downloads
+defaults write com.apple.screencapture location -string "${HOME}/Downloads"
+
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+defaults write com.apple.screencapture type -string "png"
+
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+# Set sidebar icon size to small
+defaults write -g NSTableViewDefaultSizeMode -int 1
+
+# Expand save panel by default
+defaults write -g NSNavPanelExpandedStateForSaveMode -bool true
+defaults write -g NSNavPanelExpandedStateForSaveMode2 -bool true
+
+# Expand print panel by default
+defaults write -g PMPrintingExpandedStateForPrint -bool true
+defaults write -g PMPrintingExpandedStateForPrint2 -bool true
+
+# Disable smart dashes
+defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic period substitution
+defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+
+# Disable smart quotes
+defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
+
+###############################################################################
+# Activity Monitor                                                            #
+###############################################################################
+
+# Show the main window when launching Activity Monitor
+defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
+
+# Visualize CPU usage in the Activity Monitor Dock icon
+defaults write com.apple.ActivityMonitor IconType -int 5
+
+# Show all processes in Activity Monitor
+defaults write com.apple.ActivityMonitor ShowCategory -int 0
+
+###############################################################################
+# Security & Privacy                                                          #
+###############################################################################
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+###############################################################################
+# Notifications                                                               #
+###############################################################################
+
+# Turn off notifications during sleep, when screen is locked, and during screen sharing
+defaults write com.apple.notificationcenterui dndEnabledDisplaySleep -bool true
+defaults write com.apple.notificationcenterui dndEnabledDisplayLock -bool true
+defaults write com.apple.notificationcenterui dndEnabledDisplayMirroring -bool true
+
+###############################################################################
+# Siri                                                                        #
+###############################################################################
+
+# Disable Siri
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+defaults write com.apple.Siri StatusMenuVisible -bool false
+defaults write com.apple.Siri UserHasDeclinedEnable -bool true
+
+###############################################################################
+# Manual Configuration Required                                              #
+###############################################################################
+
+echo ""
+echo "⚠️  Some settings require manual configuration:"
+echo ""
+echo "System Settings → Wi-Fi → Details → DNS:"
+echo "  - Add: 1.1.1.1, 1.0.0.2, 2606:4700:4700::1111, 2606:4700:4700::1001"
+echo ""
+echo "System Settings → Network → Firewall:"
+echo "  - Turn ON"
+echo ""
+echo "System Settings → Privacy & Security → FileVault:"
+echo "  - Turn ON (if not already enabled)"
+echo ""
+echo "System Settings → Battery:"
+echo "  - Set Low Power Mode to 'Only on Battery'"
+echo "  - If using AlDente Pro, disable 'Optimized Battery Charging'"
+echo ""
+echo "System Settings → Control Center:"
+echo "  - Set all items to 'Don't Show in Menu Bar' except Focus"
+echo "  - Turn off all 'Other Modules'"
+echo ""
+echo "System Settings → Notifications:"
+echo "  - Review and disable most app notifications"
+echo "  - Keep only: FaceTime, Find My, Messages, Reminders"
+echo ""
+echo "System Settings → Keyboard → Keyboard Shortcuts:"
+echo "  - Disable unused shortcuts (Launchpad, Input Sources, Screenshots if using CleanShot X, Spotlight if using Raycast)"
+echo ""
+echo "System Settings → Display:"
+echo "  - Select 'More Space' for increased screen real estate"
+echo "  - Turn off True Tone if color accuracy is important"
+echo ""
+
+###############################################################################
+# Restart affected applications                                              #
+###############################################################################
+
+echo ""
+echo "Restarting affected applications..."
+
+for app in "Dock" "Finder" "SystemUIServer"; do
+  killall "$app" &>/dev/null
+done
+
+echo ""
+echo "✅ Done! Some changes may require a logout/restart to take effect."
+echo ""

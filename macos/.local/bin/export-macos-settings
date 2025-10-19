@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+
+# Export your current macOS settings to .macos format
+# This creates a new .macos file from your ACTUAL current preferences
+# Usage: ~/dotfiles/macos/.local/bin/export-macos-settings
+
+set -euo pipefail
+
+# Get script directory to make path relative to repo
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+OUTPUT_FILE="${DOTFILES_DIR}/macos/.macos.generated"
+
+cat > "$OUTPUT_FILE" <<'HEADER'
+#!/bin/bash
+
+# macOS System Preferences
+# Auto-generated from current system settings
+# Apply these settings by running: source ~/.macos
+
+echo "Applying macOS system preferences..."
+
+HEADER
+
+echo "Exporting current macOS settings to: $OUTPUT_FILE"
+echo ""
+
+###############################################################################
+# Function to safely export a setting
+###############################################################################
+export_setting() {
+    local domain="$1"
+    local key="$2"
+    local comment="$3"
+
+    # Try to read the setting
+    local value=$(defaults read "$domain" "$key" 2>/dev/null)
+    local exit_code=$?
+
+    if [ $exit_code -eq 0 ]; then
+        # Determine the type and format the command
+        if [[ "$value" =~ ^[0-9]+$ ]]; then
+            # Integer
+            echo "# $comment" >> "$OUTPUT_FILE"
+            echo "defaults write $domain $key -int $value" >> "$OUTPUT_FILE"
+            echo "" >> "$OUTPUT_FILE"
+        elif [[ "$value" == "1" ]] || [[ "$value" == "0" ]]; then
+            # Boolean
+            local bool_value="false"
+            [[ "$value" == "1" ]] && bool_value="true"
+            echo "# $comment" >> "$OUTPUT_FILE"
+            echo "defaults write $domain $key -bool $bool_value" >> "$OUTPUT_FILE"
+            echo "" >> "$OUTPUT_FILE"
+        elif [[ "$value" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            # Float
+            echo "# $comment" >> "$OUTPUT_FILE"
+            echo "defaults write $domain $key -float $value" >> "$OUTPUT_FILE"
+            echo "" >> "$OUTPUT_FILE"
+        else
+            # String
+            echo "# $comment" >> "$OUTPUT_FILE"
+            echo "defaults write $domain $key -string \"$value\"" >> "$OUTPUT_FILE"
+            echo "" >> "$OUTPUT_FILE"
+        fi
+        return 0
+    fi
+    return 1
+}
+
+###############################################################################
+# Trackpad
+###############################################################################
+echo "Exporting Trackpad settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Trackpad                                                                    #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.driver.AppleBluetoothMultitouch.trackpad" "Clicking" "Tap to click"
+export_setting "-g" "com.apple.mouse.tapBehavior" "Tap to click (global)"
+export_setting "-g" "com.apple.trackpad.scaling" "Trackpad speed"
+export_setting "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadThreeFingerDrag" "Three finger drag"
+export_setting "com.apple.AppleMultitouchTrackpad" "TrackpadThreeFingerDrag" "Three finger drag (multi-touch)"
+export_setting "com.apple.driver.AppleBluetoothMultitouch.trackpad" "TrackpadRightClick" "Right click"
+export_setting "-g" "com.apple.swipescrolldirection" "Natural scrolling"
+
+###############################################################################
+# Keyboard
+###############################################################################
+echo "Exporting Keyboard settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Keyboard                                                                    #
+###############################################################################
+
+SECTION
+
+export_setting "-g" "KeyRepeat" "Key repeat rate"
+export_setting "-g" "InitialKeyRepeat" "Delay until repeat"
+export_setting "-g" "ApplePressAndHoldEnabled" "Press and hold for special characters"
+export_setting "-g" "NSAutomaticSpellingCorrectionEnabled" "Auto-correct"
+export_setting "-g" "NSAutomaticCapitalizationEnabled" "Auto-capitalize"
+export_setting "-g" "NSAutomaticDashSubstitutionEnabled" "Smart dashes"
+export_setting "-g" "NSAutomaticPeriodSubstitutionEnabled" "Period with double-space"
+export_setting "-g" "NSAutomaticQuoteSubstitutionEnabled" "Smart quotes"
+
+###############################################################################
+# Dock
+###############################################################################
+echo "Exporting Dock settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Dock                                                                        #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.dock" "tilesize" "Dock size"
+export_setting "com.apple.dock" "autohide" "Autohide dock"
+export_setting "com.apple.dock" "autohide-delay" "Autohide delay"
+export_setting "com.apple.dock" "autohide-time-modifier" "Autohide animation speed"
+export_setting "com.apple.dock" "mineffect" "Minimize effect"
+export_setting "com.apple.dock" "show-recents" "Show recent apps"
+export_setting "com.apple.dock" "mru-spaces" "Rearrange spaces based on use"
+export_setting "com.apple.dock" "orientation" "Dock position"
+export_setting "com.apple.dock" "show-process-indicators" "Show app indicators"
+
+###############################################################################
+# Finder
+###############################################################################
+echo "Exporting Finder settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.finder" "AppleShowAllFiles" "Show hidden files"
+export_setting "-g" "AppleShowAllExtensions" "Show file extensions"
+export_setting "com.apple.finder" "ShowPathbar" "Show path bar"
+export_setting "com.apple.finder" "ShowStatusBar" "Show status bar"
+export_setting "com.apple.finder" "FXPreferredViewStyle" "Default view style"
+export_setting "com.apple.finder" "FXEnableExtensionChangeWarning" "Warn on extension change"
+export_setting "com.apple.finder" "_FXSortFoldersFirst" "Keep folders on top"
+export_setting "com.apple.finder" "FXDefaultSearchScope" "Default search scope"
+export_setting "com.apple.finder" "NewWindowTarget" "New window target"
+
+###############################################################################
+# Screenshots
+###############################################################################
+echo "Exporting Screenshot settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Screenshots                                                                 #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.screencapture" "location" "Screenshot location"
+export_setting "com.apple.screencapture" "type" "Screenshot format"
+export_setting "com.apple.screencapture" "disable-shadow" "Disable shadow"
+export_setting "com.apple.screencapture" "show-thumbnail" "Show thumbnail"
+
+###############################################################################
+# Menu Bar
+###############################################################################
+echo "Exporting Menu Bar settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Menu Bar                                                                    #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.menuextra.battery" "ShowPercent" "Show battery percentage"
+
+###############################################################################
+# General UI/UX
+###############################################################################
+echo "Exporting General UI settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# General UI/UX                                                               #
+###############################################################################
+
+SECTION
+
+export_setting "-g" "NSNavPanelExpandedStateForSaveMode" "Expand save panel"
+export_setting "-g" "NSNavPanelExpandedStateForSaveMode2" "Expand save panel 2"
+export_setting "-g" "PMPrintingExpandedStateForPrint" "Expand print panel"
+export_setting "-g" "PMPrintingExpandedStateForPrint2" "Expand print panel 2"
+export_setting "-g" "NSDocumentSaveNewDocumentsToCloud" "Save to iCloud by default"
+
+###############################################################################
+# Activity Monitor
+###############################################################################
+echo "Exporting Activity Monitor settings..."
+cat >> "$OUTPUT_FILE" <<'SECTION'
+###############################################################################
+# Activity Monitor                                                            #
+###############################################################################
+
+SECTION
+
+export_setting "com.apple.ActivityMonitor" "OpenMainWindow" "Show main window on launch"
+export_setting "com.apple.ActivityMonitor" "IconType" "Dock icon"
+export_setting "com.apple.ActivityMonitor" "ShowCategory" "Show all processes"
+
+###############################################################################
+# Restart applications
+###############################################################################
+cat >> "$OUTPUT_FILE" <<'FOOTER'
+###############################################################################
+# Restart affected applications                                              #
+###############################################################################
+
+echo "Restarting affected applications..."
+
+for app in "Dock" "Finder" "SystemUIServer"; do
+  killall "$app" &>/dev/null
+done
+
+echo "Done! Some changes require a logout/restart to take effect."
+FOOTER
+
+chmod +x "$OUTPUT_FILE"
+
+echo ""
+echo "✅ Export complete!"
+echo ""
+echo "Generated file: $OUTPUT_FILE"
+echo ""
+echo "Next steps:"
+echo "1. Review the generated file"
+echo "2. Move it to replace .macos: mv ~/.macos.generated ~/dotfiles/macos/.macos"
+echo "3. Commit to your dotfiles repo"
