@@ -21,7 +21,15 @@ setopt interactivecomments
 [[ -f ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ===== Aliases =====
-alias ll='ls -la'
+# Better defaults
+alias cat='bat'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias tree='eza --tree'
+alias grep='rg'
+alias find='fd'
+
+# Utilities
 alias cls='clear'
 alias t='tmux attach || tmux'
 
